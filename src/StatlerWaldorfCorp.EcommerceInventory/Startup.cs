@@ -6,6 +6,7 @@ using System;
 using Steeltoe.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using StatlerWaldorfCorp.EcommerceInventory.Persistence;
 
 namespace StatlerWaldorfCorp.EcommerceInventory
 {
@@ -19,6 +20,7 @@ namespace StatlerWaldorfCorp.EcommerceInventory
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ISKUStatusRepository, MemorySKUStatusRepository>();                        
         }
 
         public void Configure(IApplicationBuilder app)
