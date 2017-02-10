@@ -15,9 +15,15 @@ namespace StatlerWaldorfCorp.EcommerceInventory.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int sku)
         {
-            return this.Ok();
+            return this.Ok(this.skuStatusRepository.Get(sku));
+        }
+
+        [HttpPut]
+        public IActionResult Put(SKUStatus skuStatus)
+        {
+            return this.Ok(this.skuStatusRepository.Add(skuStatus));
         }
     }
 }
