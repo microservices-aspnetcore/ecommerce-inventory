@@ -13,11 +13,8 @@ namespace StatlerWaldorfCorp.EcommerceInventory
     public class Startup
     {
         public IConfigurationRoot Configuration { get; }
-        
-        private ILogger logger;
-        private ILoggerFactory loggerFactory;
 
-        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
+	public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             var builder = new ConfigurationBuilder()
                 // Remove AddJsonFile later
@@ -26,16 +23,13 @@ namespace StatlerWaldorfCorp.EcommerceInventory
 
             Configuration = builder.Build();            
 
-
-            this.loggerFactory = loggerFactory;
-            this.loggerFactory.AddConsole(LogLevel.Information);
-            this.loggerFactory.AddDebug();
-
-            this.logger = this.loggerFactory.CreateLogger("Startup");            
+            loggerFactory.AddConsole(LogLevel.Information);
+            loggerFactory.AddDebug();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging();
             services.AddMvc();
             services.AddDiscoveryClient(Configuration);            
             services.AddScoped<ISKUStatusRepository, MemorySKUStatusRepository>();                        
