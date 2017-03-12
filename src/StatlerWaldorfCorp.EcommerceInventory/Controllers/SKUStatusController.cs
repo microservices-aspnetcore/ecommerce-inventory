@@ -1,27 +1,32 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StatlerWaldorfCorp.EcommerceInventory.Persistence;
 
 namespace StatlerWaldorfCorp.EcommerceInventory.Controllers
 {
-    [Route("api/skustatus")]    
-    public class SKUStatusController : Controller    
+    [Route("api/skustatus")]
+    public class SKUStatusController : Controller
     {
         private ISKUStatusRepository skuStatusRepository;
 
-        public SKUStatusController(ISKUStatusRepository skuStatusRepository)
+        private ILogger<SKUStatusController> logger;
+
+        public SKUStatusController(ISKUStatusRepository skuStatusRepository, ILogger<SKUStatusController> logger)
         {
             this.skuStatusRepository = skuStatusRepository;
+            this.logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet("{sku}")]
         public IActionResult Get(int sku)
         {
+            logger.LogInformation("Handling request for SKU " + sku.ToString());
             return this.Ok(this.skuStatusRepository.Get(sku));
         }
 
-        [HttpPut]
-        public IActionResult Put(SKUStatus skuStatus)
+        [HttpPut("{sku}")]
+        public IActionResult Put(int sku, [FromBody]SKUStatus skuStatus)
         {
             return this.Ok(this.skuStatusRepository.Add(skuStatus));
         }
