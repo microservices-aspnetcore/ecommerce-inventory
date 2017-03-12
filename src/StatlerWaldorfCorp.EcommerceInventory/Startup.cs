@@ -14,14 +14,13 @@ namespace StatlerWaldorfCorp.EcommerceInventory
     {
         public IConfigurationRoot Configuration { get; }
 
-	public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             var builder = new ConfigurationBuilder()
-                // Remove AddJsonFile later
-                .SetBasePath(System.IO.Directory.GetCurrentDirectory()) 
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-            Configuration = builder.Build();            
+            Configuration = builder.Build();
 
             loggerFactory.AddConsole(LogLevel.Information);
             loggerFactory.AddDebug();
@@ -31,14 +30,14 @@ namespace StatlerWaldorfCorp.EcommerceInventory
         {
             services.AddLogging();
             services.AddMvc();
-            services.AddDiscoveryClient(Configuration);            
-            services.AddScoped<ISKUStatusRepository, MemorySKUStatusRepository>();                        
+            services.AddDiscoveryClient(Configuration);
+            services.AddScoped<ISKUStatusRepository, MemorySKUStatusRepository>();
         }
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseDiscoveryClient();            
-            app.UseMvc();            
-        }                       
+            app.UseDiscoveryClient();
+            app.UseMvc();
+        }
     }
 }
